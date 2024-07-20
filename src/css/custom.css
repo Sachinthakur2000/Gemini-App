@@ -237,3 +237,7 @@ body {
 .gemini-prompt-area {
     margin-top: auto;
 }
+
+.main-title.first-screen {
+    padding-top: 30px;
+}
