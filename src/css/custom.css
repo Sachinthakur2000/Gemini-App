@@ -1,0 +1,239 @@
+body {
+    font-family: "Poppins", sans-serif !important;
+}
+
+.main-page-screen {
+    display: flex;
+    height: 100vh;
+}
+
+.left-are {
+    background-color: #f0f4f9;
+    padding: 15px 15px 30px;
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.right-are {
+    width: calc(100% - 270px);
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-toggle-btn:hover {
+    background: #e3e3e3;
+}
+
+.left-toggle-btn svg {
+    width: 25px;
+    height: 25px;
+    opacity: 0.7;
+}
+
+.left-toggle-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 50%;
+    transition: ease 0.4s all;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.recent-searches {
+    margin-top: 30px;
+    max-height: calc(100vh - 423px);
+    overflow-y: auto;
+    padding-left: 15px;
+    margin-right: -15px;
+}
+
+.recent-searches::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+.recent-searches::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 30px;
+}
+
+.recent-searches h2 {
+    margin-top: 0;
+    font-weight: 400;
+    font-size: 15px;
+    color: #272727;
+}
+
+.all-searches ul {
+    padding-left: 0;
+    list-style: none;
+    margin-left: -15px;
+}
+
+.all-searches ul li svg {
+    width: 17px;
+}
+
+.all-searches ul li:hover {
+    background: #dde3ea;
+}
+
+.all-searches ul li>span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.all-searches ul li {
+    background: transparent;
+    padding: 7px 15px;
+    display: flex;
+    align-items: center;
+    color: #363535;
+    font-size: 13px;
+    font-weight: 500;
+    transition: ease 0.4s all;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.all-searches ul li span.rcnt-txt {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.left-bottom-field p:before {
+    content: "";
+    height: 6px;
+    width: 6px;
+    min-width: 6px;
+    background: gray;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.left-bottom-field p {
+    margin-top: 0;
+    margin-bottom: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: #000;
+}
+
+.main-header-are {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hdr-right-are img {
+    width: 45px;
+    height: 45px;
+    background: #f5f5f5;
+    border: 1px solid #dedede;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.hdr-left-are h3 {
+    font-size: 25px;
+    font-weight: 300;
+    color: #252525;
+    margin: 0;
+}
+
+.main-title.first-screen h2 span {
+    display: table;
+    color: transparent;
+    position: relative;
+    background: linear-gradient(74deg, #4285f4 0, #9b72cb 9%, #d96570 20%, #d96570 24%, #9b72cb 35%, #4285f4 44%, #9b72cb 50%, #d96570 56%, #fff 75%, #fff 100%);
+    background-size: 400% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-title.first-screen h2 {
+    color: #c4c7c5;
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 70px;
+    letter-spacing: -2px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.starting-screen {
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-suggestion-prompt .suggestion-prompt-bx:hover {
+    background: #d9e1eb;
+}
+
+.all-suggestion-prompt .suggestion-prompt-bx {
+    background: #f0f4f9;
+    width: calc((100% / 4) - 10px);
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: ease 0.4s all;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.all-suggestion-prompt {
+    display: flex;
+    gap: 20px;
+    margin-top: 80px;
+}
+
+.all-suggestion-prompt .suggestion-prompt-bx p {
+    margin: 0;
+    font-size: 16px;
+    color: #363636;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.prompt-btn {
+    background: #fff;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    max-width: 45px;
+    max-height: 45px;
+    object-fit: cover;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.gemini-prompt-area {
+    margin-top: auto;
+}
