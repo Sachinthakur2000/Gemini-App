@@ -1,3 +1,13 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:focus {
+    outline: none;
+}
+
 body {
     font-family: "Poppins", sans-serif !important;
 }
@@ -14,6 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: ease 0.4s all;
 }
 
 .right-are {
@@ -21,6 +32,7 @@ body {
     padding: 15px 30px;
     display: flex;
     flex-direction: column;
+    transition: ease 0.4s all;
 }
 
 .left-toggle-btn:hover {
@@ -195,17 +207,17 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: ease 0.4s all;
-    min-height: 200px;
+    min-height: 250px;
     display: flex;
     flex-direction: column;
-    max-height: 200px;
+    max-height: 250px;
     overflow: hidden;
 }
 
 .all-suggestion-prompt {
     display: flex;
     gap: 20px;
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .all-suggestion-prompt .suggestion-prompt-bx p {
@@ -232,6 +244,8 @@ body {
     justify-content: center;
     margin-top: auto;
     margin-left: auto;
+    min-height: 45px;
+    min-width: 45px;
 }
 
 .gemini-prompt-area {
@@ -239,5 +253,119 @@ body {
 }
 
 .main-title.first-screen {
-    padding-top: 30px;
+    padding-top: 20px;
+}
+
+.gemini-prompt-area {
+    width: 100%;
+}
+
+.prompt-inner {
+    width: 100%;
+}
+
+.prompt-form {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.full-width-textarea {
+    width: 100%;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+form.prompt-form div,
+form.prompt-form textarea {
+    width: 100% !important;
+    padding: 0;
+}
+
+form.prompt-form .text-genrate-btn {
+    position: absolute;
+    right: 20px;
+    border: 0;
+    background-color: transparent;
+    bottom: 17px;
+    height: auto;
+    opacity: 0;
+    visibility: hidden;
+}
+
+form.prompt-form textarea {
+    background: #f0f4f9 !important;
+    border: 0;
+    font-family: 'Poppins';
+    padding: 22px 50px 1px 30px;
+    border-radius: 50px;
+    font-size: 16px;
+    color: #000 !important;
+    max-height: 250px;
+    overflow-y: auto !important;
+}
+
+form.prompt-form>div {
+    border-radius: 50px;
+    max-height: 250px;
+    overflow: hidden !important;
+}
+
+.starting-screen .gemini-prompt-area p {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+    color: #555;
+}
+
+form.prompt-form textarea::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+form.prompt-form textarea::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 30px;
+}
+
+button.text-genrate-btn.btn-enabled {
+    opacity: 1;
+    visibility: visible;
+}
+
+.left-are.collapsed {
+    width: 75px;
+}
+
+.left-are.collapsed .recent-searches,
+.left-are.collapsed .left-bottom-field {
+    opacity: 0;
+    visibility: hidden;
+    transition: ease 0.3s all;
+}
+
+.new-chat-btn span.MuiButton-icon,
+.new-chat-btn {
+    transition: ease 0.4s all;
+}
+
+.left-are.collapsed+.right-are {
+    width: calc(100% - 75px);
+}
+
+.left-are.collapsed .new-chat-btn span.MuiButton-icon {
+    margin: 0;
+}
+
+.left-are.collapsed .new-chat-btn {
+    font-size: 0;
+}
+
+.left-are.collapsed .new-chat-btn {
+    font-size: 0;
+    padding: 0;
+    width: 45px !important;
+    height: 45px;
+    max-width: 45px;
+    min-width: 45px;
 }

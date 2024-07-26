@@ -5,6 +5,7 @@ import NormalText from "./NormalText";
 
 const InputPrompt = () => {
     const [text, setText] = useState("");
+    const [isTyping, setIsTyping] = useState(false);
     const textareaRef = useRef(null);
 
     useEffect(() => {
@@ -14,6 +15,13 @@ const InputPrompt = () => {
         }
     }, [text]);
 
+    const handleInput = (e) => {
+        setText(e.target.value);
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+        setIsTyping(e.target.value.length > 0);
+    };
+
     return (
         <div className="gemini-prompt-area">
             <div className="prompt-inner">
@@ -22,14 +30,12 @@ const InputPrompt = () => {
                         ref={textareaRef}
                         placeholder="Enter a prompt here"
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        onInput={() => {
-                            textareaRef.current.style.height = "auto";
-                            textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
-                        }}
+                        onChange={handleInput}
+                        onInput={handleInput}
+                        className="full-width-textarea"
                         style={{ overflow: "hidden", resize: "none" }}
                     />
-                    <button type="submit"><SendIcon /></button>
+                    <button type="submit" className={`text-genrate-btn ${isTyping ? "btn-enabled" : ""}`}><SendIcon /></button>
                 </form>
                 <NormalText />
             </div>
