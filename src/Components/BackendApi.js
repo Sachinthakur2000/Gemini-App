@@ -26,7 +26,7 @@ const BackendApi = () => {
     };
 
     return (
-        <div className="mycom-">
+        <div className="mycom">
             <input
                 type="text"
                 value={userInput}
