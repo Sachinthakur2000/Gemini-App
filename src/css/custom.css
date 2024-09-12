@@ -403,16 +403,10 @@ button.text-genrate-btn.btn-enabled {
     margin: 1em 0;
 }
 
-.generated-text-container .response-all-text>span,
-.generated-text-container .response-all-text>strong {
-    display: inline-block;
-}
 
 
-.generated-text-container p,
-.generated-text-container .response-all-text>span,
-.generated-text-container .response-all-text>strong {
-    margin: 1em 0;
+.generated-text-container p {
+    margin-bottom: 1em;
 }
 
 .response-are::-webkit-scrollbar {
@@ -504,7 +498,7 @@ p.user-prompt img {
 
 .generated-text-container img.generate-img {
     position: relative;
-    top: 20px;
+    top: 5px;
 }
 
 .generated-text-container {
