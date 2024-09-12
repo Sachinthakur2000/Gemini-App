@@ -6,6 +6,8 @@ import GeneratedText from "./GeneratedText";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import SuggestionPrompts from "./SuggestionPrompts";
 import BigTitle from "./BigTitle";
+import avtarImg from "../images/avtr-img.png";
+
 
 const MainFirstScreen = () => {
     const [text, setText] = useState("");
@@ -52,13 +54,15 @@ const MainFirstScreen = () => {
                 { prompt: text, response: result }
             ]);
         }
-        setText(""); // Clear the input after submission
     };
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleSubmit(e);
+            e.preventDefault(); // Always prevent the default new line behavior
+            if (e.target.value.trim() !== "") {
+                handleSubmit(e);  // Submit only if the prompt is not empty
+                setText("");
+            }
         }
     };
 
@@ -73,12 +77,13 @@ const MainFirstScreen = () => {
                 <div className="response-area">
                     {promptResponses.map((item, index) => (
                         <div key={index} className="response-block">
-                            <p><strong>Prompt:</strong> {item.prompt}</p>
+                            <p className="user-prompt"><img src={avtarImg} alt="" /> {item.prompt}</p>
                             <GeneratedText response={item.response} />
                         </div>
                     ))}
                 </div>
             )}
+
 
             <div className="gemini-prompt-area">
                 <div className="prompt-inner">
@@ -93,7 +98,7 @@ const MainFirstScreen = () => {
                             className="full-width-textarea"
                             style={{ overflow: "hidden", resize: "none" }}
                         />
-                        <button type="submit" className={`text-generate-btn ${isTyping ? "btn-enabled" : ""}`}>
+                        <button type="submit" className={`text-genrate-btn ${isTyping ? "btn-enabled" : ""}`}>
                             <SendIcon />
                         </button>
                     </form>
@@ -101,7 +106,7 @@ const MainFirstScreen = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default MainFirstScreen;

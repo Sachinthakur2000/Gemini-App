@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import generateIcon from "../images/gemini-generate.svg";
 
 const formatResponseText = (text) => {
     const formattedText = [];
@@ -47,18 +48,7 @@ const formatResponseText = (text) => {
     };
 
     const copyToClipboard = (code) => {
-        if (!code || code.trim() === "") {
-            console.warn("Empty code block, nothing to copy.");
-            return;
-        }
-
-        navigator.clipboard.writeText(code)
-            .then(() => {
-                console.log("Copied code:", code);
-            })
-            .catch((err) => {
-                console.error("Failed to copy code:", err);
-            });
+        navigator.clipboard.writeText(code);
     };
 
     lines.forEach((line, index) => {
@@ -68,7 +58,6 @@ const formatResponseText = (text) => {
         if (line.startsWith('```')) {
             if (inMultilineCodeBlock) {
                 inMultilineCodeBlock = false;
-                console.log("Multiline Code Buffer: ", multilineCodeBuffer); // Check the content of the buffer here
                 let allCode = multilineCodeBuffer.join('\n');
                 formattedText.push(
                     <div key={`multiline-code-${multilineCodeIndex}`} className="multiline-code-block">
@@ -91,7 +80,13 @@ const formatResponseText = (text) => {
         } else if (inMultilineCodeBlock) {
             multilineCodeBuffer.push(line);
 
-            // Check for headings (**text**)
+            // Check for headings (## text)
+        } else if (line.startsWith('## ')) {
+            formattedText.push(
+                <strong key={index} className="heading">{line.slice(3)}</strong>
+            );
+
+            // Check for bold text (**text**)
         } else if (line.startsWith('**') && line.endsWith('**')) {
             formattedText.push(<strong key={index} className="heading">{line.slice(2, -2)}</strong>);
 
@@ -134,7 +129,10 @@ const formatResponseText = (text) => {
 const GeneratedText = ({ response }) => {
     return (
         <div className="generated-text-container">
-            {response && formatResponseText(response)}
+            <img src={generateIcon} alt='generate Icon' className='generate-img' />
+            <div className='response-all-text'>
+                {response && formatResponseText(response)}
+            </div>
         </div>
     );
 };

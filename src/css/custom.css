@@ -66,12 +66,14 @@ body {
     margin-right: -15px;
 }
 
-.recent-searches::-webkit-scrollbar {
+.recent-searches::-webkit-scrollbar,
+.response-area::-webkit-scrollbar {
     width: 7px;
 }
 
 
-.recent-searches::-webkit-scrollbar-thumb {
+.recent-searches::-webkit-scrollbar-thumb,
+.response-area::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     border-radius: 30px;
 }
@@ -401,7 +403,15 @@ button.text-genrate-btn.btn-enabled {
     margin: 1em 0;
 }
 
-.generated-text-container p {
+.generated-text-container .response-all-text>span,
+.generated-text-container .response-all-text>strong {
+    display: inline-block;
+}
+
+
+.generated-text-container p,
+.generated-text-container .response-all-text>span,
+.generated-text-container .response-all-text>strong {
     margin: 1em 0;
 }
 
@@ -421,9 +431,20 @@ button.text-genrate-btn.btn-enabled {
     font-size: 14px;
 }
 
-.generated-text-container {
-    max-width: 1100px;
+.response-area .response-block {
+    max-width: 900px;
     margin: 0 auto;
+    width: 100%;
+}
+
+.response-area .response-block+.response-block {
+    margin-top: 30px;
+}
+
+.response-area {
+    height: calc(100vh - 170px);
+    overflow-y: auto;
+    padding-bottom: 20px !important;
 }
 
 .single-line-code {
@@ -445,8 +466,8 @@ button.text-genrate-btn.btn-enabled {
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     text-align: center;
     line-height: 30px;
     display: flex;
@@ -463,5 +484,31 @@ button.text-genrate-btn.btn-enabled {
 }
 
 button.copy-code-button svg {
-    width: 15px;
+    width: 12px;
+}
+
+p.user-prompt {
+    margin-bottom: 25px;
+}
+
+p.user-prompt img {
+    width: 30px;
+    height: 30px;
+    background: #e7e7e7;
+    object-fit: contain;
+    border-radius: 50%;
+    position: relative;
+    top: 10px;
+    margin-right: 10px;
+}
+
+.generated-text-container img.generate-img {
+    position: relative;
+    top: 20px;
+}
+
+.generated-text-container {
+    display: flex;
+    align-items: start;
+    gap: 15px;
 }
