@@ -9,7 +9,7 @@ import BigTitle from "./BigTitle";
 
 const MainFirstScreen = () => {
     const [text, setText] = useState("");
-    const [response, setResponse] = useState("");
+    const [promptResponses, setPromptResponses] = useState([]); // To hold multiple prompts and responses
     const [isTyping, setIsTyping] = useState(false);
     const [firstDiv, setFirstDiv] = useState(true);
     const [genAI, setGenAI] = useState(null);
@@ -45,11 +45,14 @@ const MainFirstScreen = () => {
         e.preventDefault();
         setIsTyping(false);
         setFirstDiv(false);
-        setText("");
         if (genAI && text) {
             const result = await apiRun(genAI, text);
-            setResponse(result);
+            setPromptResponses(prevState => [
+                ...prevState,
+                { prompt: text, response: result }
+            ]);
         }
+        setText(""); // Clear the input after submission
     };
 
     const handleKeyDown = (e) => {
@@ -66,10 +69,16 @@ const MainFirstScreen = () => {
                     <BigTitle />
                     <SuggestionPrompts />
                 </>
-            ) : <div className="response-are">
-                <GeneratedText response={response} />
-            </div>}
-
+            ) : (
+                <div className="response-area">
+                    {promptResponses.map((item, index) => (
+                        <div key={index} className="response-block">
+                            <p><strong>Prompt:</strong> {item.prompt}</p>
+                            <GeneratedText response={item.response} />
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <div className="gemini-prompt-area">
                 <div className="prompt-inner">
@@ -84,7 +93,7 @@ const MainFirstScreen = () => {
                             className="full-width-textarea"
                             style={{ overflow: "hidden", resize: "none" }}
                         />
-                        <button type="submit" className={`text-genrate-btn ${isTyping ? "btn-enabled" : ""}`}>
+                        <button type="submit" className={`text-generate-btn ${isTyping ? "btn-enabled" : ""}`}>
                             <SendIcon />
                         </button>
                     </form>
@@ -92,7 +101,7 @@ const MainFirstScreen = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default MainFirstScreen;

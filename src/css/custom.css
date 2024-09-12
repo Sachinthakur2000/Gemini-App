@@ -157,8 +157,8 @@ body {
 }
 
 .hdr-right-are img {
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     background: #f5f5f5;
     border: 1px solid #dedede;
     object-fit: contain;
@@ -166,8 +166,8 @@ body {
 }
 
 .hdr-left-are h3 {
-    font-size: 25px;
-    font-weight: 300;
+    font-size: 20px;
+    font-weight: 400;
     color: #252525;
     margin: 0;
 }
@@ -378,7 +378,11 @@ button.text-genrate-btn.btn-enabled {
 
 .generated-text-container ul {
     padding-left: 1.5em;
-    margin: 0.5em 0;
+    margin: 1em 0 1.5em;
+}
+
+.generated-text-container li {
+    margin-bottom: 10px;
 }
 
 .generated-text-container .single-line-code {
@@ -414,9 +418,50 @@ button.text-genrate-btn.btn-enabled {
     height: calc(100vh - 181px);
     overflow-y: auto;
     padding-bottom: 30px;
+    font-size: 14px;
 }
 
 .generated-text-container {
     max-width: 1100px;
     margin: 0 auto;
+}
+
+.single-line-code {
+    font-family: monospace;
+    background-color: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+    display: inline;
+    /* This ensures it remains inline */
+}
+
+
+.copy-code-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #cfcfcf;
+    color: #000000;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    line-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copy-code-button:hover {
+    background-color: #c5c5c5;
+}
+
+.multiline-code-block {
+    position: relative;
+}
+
+button.copy-code-button svg {
+    width: 15px;
 }
