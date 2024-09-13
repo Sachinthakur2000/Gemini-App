@@ -3,11 +3,11 @@ import { RichTextarea } from "rich-textarea";
 import SendIcon from '@mui/icons-material/Send';
 import NormalText from "./NormalText";
 import GeneratedText from "./GeneratedText";
+import ResponseLoader from "./ResponseLoader";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import SuggestionPrompts from "./SuggestionPrompts";
 import BigTitle from "./BigTitle";
 import avtarImg from "../images/avtr-img.png";
-
 
 const MainFirstScreen = () => {
     const [text, setText] = useState("");
@@ -15,7 +15,9 @@ const MainFirstScreen = () => {
     const [isTyping, setIsTyping] = useState(false);
     const [firstDiv, setFirstDiv] = useState(true);
     const [genAI, setGenAI] = useState(null);
+    const [currentDisplayedText, setCurrentDisplayedText] = useState('');
     const textareaRef = useRef(null);
+    const responseAreaRef = useRef(null); // Reference to the response area
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -47,14 +49,30 @@ const MainFirstScreen = () => {
         e.preventDefault();
         setIsTyping(false);
         setFirstDiv(false);
+
+        // Add a new prompt with loading status set to true
+        setPromptResponses(prevState => [
+            ...prevState,
+            { prompt: text, response: null, isLoading: true }
+        ]);
+
         if (genAI && text) {
             const result = await apiRun(genAI, text);
-            setPromptResponses(prevState => [
-                ...prevState,
-                { prompt: text, response: result }
-            ]);
+
+            // Update the response and set loading to false for this prompt
+            setPromptResponses(prevState => prevState.map((item, index) =>
+                index === prevState.length - 1 // Update the last added prompt
+                    ? { ...item, response: result, isLoading: false }
+                    : item
+            ));
         }
     };
+
+    useEffect(() => {
+        if (responseAreaRef.current) {
+            responseAreaRef.current.scrollTop = responseAreaRef.current.scrollHeight;
+        }
+    }, [currentDisplayedText]);
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -74,16 +92,22 @@ const MainFirstScreen = () => {
                     <SuggestionPrompts />
                 </>
             ) : (
-                <div className="response-area">
+                <div className="response-area" ref={responseAreaRef}>
                     {promptResponses.map((item, index) => (
                         <div key={index} className="response-block">
                             <p className="user-prompt"><img src={avtarImg} alt="" /> {item.prompt}</p>
-                            <GeneratedText response={item.response} />
+                            {item.isLoading ? (
+                                <ResponseLoader /> // Show loader while this response is loading
+                            ) : (
+                                <GeneratedText
+                                    response={item.response}
+                                    onDisplayedTextChange={setCurrentDisplayedText} // Pass the handler to the child
+                                />
+                            )}
                         </div>
                     ))}
                 </div>
             )}
-
 
             <div className="gemini-prompt-area">
                 <div className="prompt-inner">
@@ -106,7 +130,7 @@ const MainFirstScreen = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default MainFirstScreen;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import generateIcon from "../images/gemini-generate.svg";
 
@@ -14,22 +14,17 @@ const formatResponseText = (text) => {
         const parts = [];
         let lastIndex = 0;
 
-        // Regex to find bold text and inline code
         const regex = /(\*\*(.*?)\*\*)|(`(.*?)`)/g;
         let match;
 
-        // Iterate over matches
         while ((match = regex.exec(line)) !== null) {
             if (match.index > lastIndex) {
-                // Push plain text before the match
                 parts.push(line.slice(lastIndex, match.index));
             }
 
             if (match[1]) {
-                // Bold text match
                 parts.push(<strong key={match.index}>{match[2]}</strong>);
             } else if (match[3]) {
-                // Single-line code match
                 parts.push(
                     <span key={match.index} className="single-line-code">
                         {match[4]}
@@ -39,7 +34,6 @@ const formatResponseText = (text) => {
             lastIndex = regex.lastIndex;
         }
 
-        // Push the remaining part of the line if any
         if (lastIndex < line.length) {
             parts.push(line.slice(lastIndex));
         }
@@ -54,7 +48,6 @@ const formatResponseText = (text) => {
     lines.forEach((line, index) => {
         line = line.trim();
 
-        // Handle multi-line code block start and end
         if (line.startsWith('```')) {
             if (inMultilineCodeBlock) {
                 inMultilineCodeBlock = false;
@@ -72,25 +65,19 @@ const formatResponseText = (text) => {
                         </button>
                     </div>
                 );
-                multilineCodeBuffer = []; // Reset the buffer after rendering
+                multilineCodeBuffer = [];
                 multilineCodeIndex++;
             } else {
                 inMultilineCodeBlock = true;
             }
         } else if (inMultilineCodeBlock) {
             multilineCodeBuffer.push(line);
-
-            // Check for headings (## text)
         } else if (line.startsWith('## ')) {
             formattedText.push(
                 <strong key={index} className="heading">{line.slice(3)}</strong>
             );
-
-            // Check for bold text (**text**)
         } else if (line.startsWith('**') && line.endsWith('**')) {
             formattedText.push(<strong key={index} className="heading">{line.slice(2, -2)}</strong>);
-
-            // Check for list items (* text)
         } else if (line.startsWith('* ')) {
             if (!currentList) {
                 currentList = [];
@@ -98,8 +85,6 @@ const formatResponseText = (text) => {
             currentList.push(
                 <li key={index}>{processInlineFormatting(line.slice(2))}</li>
             );
-
-            // Otherwise, treat it as a paragraph with possible inline formatting
         } else if (line !== '') {
             if (currentList) {
                 formattedText.push(<ul key={currentList.join('')}>{currentList}</ul>);
@@ -108,8 +93,6 @@ const formatResponseText = (text) => {
             formattedText.push(
                 <p key={index}>{processInlineFormatting(line)}</p>
             );
-
-            // Handle empty lines
         } else if (line === '') {
             if (currentList) {
                 formattedText.push(<ul key={currentList.join('')}>{currentList}</ul>);
@@ -118,7 +101,6 @@ const formatResponseText = (text) => {
         }
     });
 
-    // If there's a list left over, add it
     if (currentList) {
         formattedText.push(<ul key={currentList.join('')}>{currentList}</ul>);
     }
@@ -126,12 +108,28 @@ const formatResponseText = (text) => {
     return formattedText;
 };
 
-const GeneratedText = ({ response }) => {
+const GeneratedText = ({ response, onDisplayedTextChange }) => {
+    const [displayedText, setDisplayedText] = useState('');
+    const [wordIndex, setWordIndex] = useState(0);
+    const words = response ? response.split(' ') : [];
+
+    useEffect(() => {
+        if (wordIndex < words.length) {
+            const timeoutId = setTimeout(() => {
+                const newText = displayedText + words[wordIndex] + ' ';
+                setDisplayedText(newText);
+                onDisplayedTextChange(newText);  // Pass updated text to parent
+                setWordIndex(wordIndex + 1);
+            }, 40); // Adjust speed by changing the timeout value
+            return () => clearTimeout(timeoutId);
+        }
+    }, [wordIndex, words, displayedText, onDisplayedTextChange]);
+
     return (
         <div className="generated-text-container">
             <img src={generateIcon} alt='generate Icon' className='generate-img' />
             <div className='response-all-text'>
-                {response && formatResponseText(response)}
+                {formatResponseText(displayedText)}
             </div>
         </div>
     );
