@@ -7,7 +7,10 @@ import ResponseLoader from "./ResponseLoader";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import SuggestionPrompts from "./SuggestionPrompts";
 import BigTitle from "./BigTitle";
+import ChatHistoryPanel from "./ChatHistoryPanel";
 import avtarImg from "../images/avtr-img.png";
+import LeftSide from "./LeftSIde";
+import MainHeader from "./MainHeader";
 
 const MainFirstScreen = () => {
     const [text, setText] = useState("");
@@ -25,6 +28,12 @@ const MainFirstScreen = () => {
             textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
         }
     }, [text]);
+
+    const handleSelectChat = (chat) => {
+        setPromptResponses(chat); // Load the selected chat's prompts and responses
+        setFirstDiv(false); // Show the response area
+    };
+
 
     useEffect(() => {
         const genAIInstance = new GoogleGenerativeAI('AIzaSyCwWXZzNuVXeU3PHUpATddy-3cgP72Qxnw');
@@ -85,48 +94,63 @@ const MainFirstScreen = () => {
     };
 
     return (
-        <div className="starting-screen">
-            {firstDiv ? (
-                <>
-                    <BigTitle />
-                    <SuggestionPrompts />
-                </>
-            ) : (
-                <div className="response-area" ref={responseAreaRef}>
-                    {promptResponses.map((item, index) => (
-                        <div key={index} className="response-block">
-                            <p className="user-prompt"><img src={avtarImg} alt="" /> {item.prompt}</p>
-                            {item.isLoading ? (
-                                <ResponseLoader /> // Show loader while this response is loading
-                            ) : (
-                                <GeneratedText
-                                    response={item.response}
-                                    onDisplayedTextChange={setCurrentDisplayedText} // Pass the handler to the child
-                                />
-                            )}
+        <div className='main-page-screen'>
+            <LeftSide
+                promptResponses={promptResponses}
+                setPromptResponses={setPromptResponses}
+                setText={setText}
+                setFirstDiv={setFirstDiv}
+                handleSelectChat={handleSelectChat} // Pass down handleSelectChat
+            />
+            <div className="right-are">
+                <MainHeader />
+                <div className="starting-screen">
+                    {firstDiv ? (
+                        <>
+                            <BigTitle />
+                            <SuggestionPrompts />
+                        </>
+                    ) : (
+                        <div className="response-area" ref={responseAreaRef}>
+                            {promptResponses.map((item, index) => (
+                                <div key={index} className="response-block">
+                                    <div className="user-prompt-block">
+                                        <img src={avtarImg} alt="" />
+                                        <p className="user-prompt"> {item.prompt}</p>
+                                    </div>
+                                    {item.isLoading ? (
+                                        <ResponseLoader /> // Show loader while this response is loading
+                                    ) : (
+                                        <GeneratedText
+                                            response={item.response}
+                                            onDisplayedTextChange={setCurrentDisplayedText} // Pass the handler to the child
+                                        />
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            )}
+                    )}
 
-            <div className="gemini-prompt-area">
-                <div className="prompt-inner">
-                    <form className="prompt-form" onSubmit={handleSubmit}>
-                        <RichTextarea
-                            ref={textareaRef}
-                            placeholder="Enter a prompt here"
-                            value={text}
-                            onChange={handleInput}
-                            onInput={handleInput}
-                            onKeyDown={handleKeyDown}
-                            className="full-width-textarea"
-                            style={{ overflow: "hidden", resize: "none" }}
-                        />
-                        <button type="submit" className={`text-genrate-btn ${isTyping ? "btn-enabled" : ""}`}>
-                            <SendIcon />
-                        </button>
-                    </form>
-                    <NormalText />
+                    <div className="gemini-prompt-area">
+                        <div className="prompt-inner">
+                            <form className="prompt-form" onSubmit={handleSubmit}>
+                                <RichTextarea
+                                    ref={textareaRef}
+                                    placeholder="Enter a prompt here"
+                                    value={text}
+                                    onChange={handleInput}
+                                    onInput={handleInput}
+                                    onKeyDown={handleKeyDown}
+                                    className="full-width-textarea"
+                                    style={{ overflow: "hidden", resize: "none" }}
+                                />
+                                <button type="submit" className={`text-genrate-btn ${isTyping ? "btn-enabled" : ""}`}>
+                                    <SendIcon />
+                                </button>
+                            </form>
+                            <NormalText />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

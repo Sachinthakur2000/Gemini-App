@@ -439,6 +439,7 @@ button.text-genrate-btn.btn-enabled {
     height: calc(100vh - 170px);
     overflow-y: auto;
     padding-bottom: 20px !important;
+    padding-top: 20px !important;
 }
 
 .single-line-code {
@@ -481,18 +482,22 @@ button.copy-code-button svg {
     width: 12px;
 }
 
-p.user-prompt {
+.user-prompt-block {
     margin-bottom: 25px;
+    display: flex;
 }
 
-p.user-prompt img {
+.user-prompt-block p.user-prompt {
+    margin-top: 5px;
+}
+
+.user-prompt-block img {
     width: 30px;
     height: 30px;
     background: #e7e7e7;
     object-fit: contain;
     border-radius: 50%;
     position: relative;
-    top: 10px;
     margin-right: 10px;
 }
 
@@ -577,4 +582,29 @@ p.user-prompt img {
         opacity: 0;
         /* Fade out at the end of the animation */
     }
+}
+
+.delete-icon {
+    margin-left: auto;
+    background: #bfbfbf;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #ff0000;
+    min-width: 25px;
+    padding: 4px;
+    opacity: 0;
+    transition: ease 0.4s all;
+    visibility: hidden;
+}
+
+.all-searches ul li:hover .delete-icon {
+    opacity: 1;
+    visibility: visible;
+}
+
+p.no-chat {
+    font-size: 14px;
+    margin-top: 20px;
+    opacity: 0.8;
 }

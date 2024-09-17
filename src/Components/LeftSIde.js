@@ -6,12 +6,23 @@ import AddIcon from '@mui/icons-material/Add';
 import ChatHistoryPanel from "./ChatHistoryPanel";
 import LeftBottomFields from "./LeftBottomFields";
 
-const LeftSide = () => {
+const LeftSide = ({ promptResponses, setPromptResponses, setText, setFirstDiv, handleSelectChat }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const handleToggle = useCallback(() => {
         setIsCollapsed(prevState => !prevState);
     }, []);
+
+    const handleNewChat = () => {
+        const chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        if (promptResponses.length > 0) {
+            chatHistory.push(promptResponses);
+            localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+        }
+        setText(""); // Clear input prompt
+        setPromptResponses([]); // Clear chat history in the current session
+        setFirstDiv(true); // Show the initial screen
+    };
 
     return (
         <div className={`left-are ${isCollapsed ? 'collapsed' : ''}`}>
@@ -27,7 +38,6 @@ const LeftSide = () => {
                         className="new-chat-btn"
                         color="primary"
                         startIcon={<AddIcon />}
-
                         sx={{
                             borderColor: '#dde3ea',
                             color: '#444746',
@@ -38,15 +48,17 @@ const LeftSide = () => {
                             borderRadius: '50px',
                             textTransform: 'capitalize',
                         }}
+                        onClick={handleNewChat}
                     >
                         New Chat
                     </Button>
                 </Tooltip>
-                <ChatHistoryPanel />
+                {/* Pass handleSelectChat to ChatHistoryPanel */}
+                <ChatHistoryPanel onSelectChat={handleSelectChat} />
             </div>
             <LeftBottomFields />
         </div>
-    )
-}
+    );
+};
 
 export default LeftSide;
