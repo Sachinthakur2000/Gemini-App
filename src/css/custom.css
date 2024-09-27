@@ -759,16 +759,17 @@ p.no-chat {
     }
 
     .multiline-code-block {
-        width: 471px;
-        max-width: 471px;
+        width: 81vw;
+        max-width: 81vw;
     }
+
 
 }
 
-@media(max-width:576px) {
+@media(max-width:500px) {
     .multiline-code-block {
-        width: 317px;
-        max-width: 317px;
+        width: 75vw;
+        max-width: 75vw;
     }
 }
 
@@ -777,8 +778,4 @@ p.no-chat {
         height: calc(100dvh - 200px);
     }
 
-    .multiline-code-block {
-        width: 234px;
-        max-width: 234px;
-    }
 }
