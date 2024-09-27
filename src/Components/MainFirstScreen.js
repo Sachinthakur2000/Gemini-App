@@ -34,7 +34,6 @@ const MainFirstScreen = () => {
         setFirstDiv(false); // Show the response area
     };
 
-
     useEffect(() => {
         const genAIInstance = new GoogleGenerativeAI('AIzaSyCwWXZzNuVXeU3PHUpATddy-3cgP72Qxnw');
         setGenAI(genAIInstance);
@@ -59,10 +58,10 @@ const MainFirstScreen = () => {
         setIsTyping(false);
         setFirstDiv(false);
 
-        // Add a new prompt with loading status set to true
+        // Add a new prompt with a unique ID and loading status
         setPromptResponses(prevState => [
             ...prevState,
-            { prompt: text, response: null, isLoading: true }
+            { id: Date.now(), prompt: text, response: null, isLoading: true }
         ]);
 
         if (genAI && text) {
@@ -75,6 +74,26 @@ const MainFirstScreen = () => {
                     : item
             ));
         }
+    };
+
+    const handleSuggestionClick = async (suggestion) => {
+        setText("");
+        setFirstDiv(false);
+
+        setPromptResponses(prevState => [
+            ...prevState,
+            { id: Date.now(), prompt: suggestion, response: null, isLoading: true }
+        ]);
+
+        if (genAI) {
+            const result = await apiRun(genAI, suggestion);
+            setPromptResponses(prevState => prevState.map((item, index) =>
+                index === prevState.length - 1
+                    ? { ...item, response: result, isLoading: false }
+                    : item
+            ));
+        }
+
     };
 
     useEffect(() => {
@@ -108,12 +127,12 @@ const MainFirstScreen = () => {
                     {firstDiv ? (
                         <>
                             <BigTitle />
-                            <SuggestionPrompts />
+                            <SuggestionPrompts handleSuggestionClick={handleSuggestionClick} />
                         </>
                     ) : (
                         <div className="response-area" ref={responseAreaRef}>
-                            {promptResponses.map((item, index) => (
-                                <div key={index} className="response-block">
+                            {promptResponses.map((item) => (
+                                <div key={item.id} className="response-block">
                                     <div className="user-prompt-block">
                                         <img src={avtarImg} alt="" />
                                         <p className="user-prompt"> {item.prompt}</p>

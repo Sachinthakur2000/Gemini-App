@@ -37,12 +37,15 @@ const ChatHistoryPanel = ({ onSelectChat, newChat }) => {
                         {chatHistory.map((chat, index) => (
                             <li key={index} onClick={() => handleChatClick(chat)}>
                                 <Tooltip title={chat[0]?.prompt || `Chat ${index + 1}`} placement="right">
-                                    <ChatBubbleOutlineIcon />
-                                    <span className="rcnt-txt">{chat[0]?.prompt || `Chat ${index + 1}`}</span>
-                                    <DeleteOutlineIcon
-                                        className="delete-icon"
-                                        onClick={(e) => handleDelete(e, index)}
-                                    />
+                                    {/* Wrapping multiple elements inside a single parent element */}
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <ChatBubbleOutlineIcon />
+                                        <span className="rcnt-txt">{chat[0]?.prompt || `Chat ${index + 1}`}</span>
+                                        <DeleteOutlineIcon
+                                            className="delete-icon"
+                                            onClick={(e) => handleDelete(e, index)}
+                                        />
+                                    </div>
                                 </Tooltip>
                             </li>
                         ))}
