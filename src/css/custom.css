@@ -620,6 +620,11 @@ p.no-chat {
     width: 100%;
 }
 
+form.prompt-form textarea,
+form.prompt-form>div {
+    min-height: 70px;
+}
+
 @media(max-width:1200px) {
     .response-area {
         height: calc(100vh - 190px);
