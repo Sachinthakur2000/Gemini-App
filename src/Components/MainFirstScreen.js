@@ -55,6 +55,7 @@ const MainFirstScreen = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setText("");
         setIsTyping(false);
         setFirstDiv(false);
 
